@@ -9,32 +9,35 @@
 #'for the  approximation. More points will generate a better approximation but
 #'will be heavier computationally
 #'@param interval A length 2 numeric vector that is the interval to integrate
-#'@param mode The mode used for approximation, the available modes are:
-#'              - "m" : Midpoint method
-#'              - "l" : Left endpoint method
-#'              - "r" : Right endpoint method
-#'              - "t" : Trapezoidal method
-#'              - "s" : Simpsons method
+#'
+#'@param method The method used for approximation, the available methods are described in the details section
+#'
 #'@return A Numeric. The area bellow the function func in the interval provided.
 
 #'@details
 #' The integration methods available are:
-#'   - "m": Midpoint method
-#'   - "r": Right endpoint method
-#'   - "l": Left endpoint method
-#'   - "t": Trapezoidal method
-#'   - "s": Simpson's rule
+#'    \itemize{
+#'            \item "m" : Midpoint method
+#'            \item "l" : Left endpoint method
+#'            \item "r" : Right endpoint method
+#'            \item "t" : Trapezoidal method
+#'            \item "s" : Simpsons method
+#'            }
 #'@examples
 
 #'aprox(function(x) x^2, n_points = 100, interval = c(0,1))
-#'aprox(function(x) sqrt(x^x + 2), n_points = 100, interval = c(sqrt(2), pi), mode = "m")
-#'aprox(function(x) exp(x^2), n_points = 1000, interval = c(2,4), mode = "t" )
+#'aprox(function(x) sqrt(x^x + 2), n_points = 100, interval = c(sqrt(2), pi), method = "m")
+#'aprox(function(x) exp(x^2), n_points = 1000, interval = c(2,4), method = "t" )
 #'aprox(function(x) exp(x^2), n_points = 1000, interval = c(4,2))
 
 #'@export
-aprox<- function(func, n_points, interval, mode = "s"){
+
+#_______________________________________________________________________________
+
+
+aprox<- function(func, n_points, interval, method = "s"){
   check(func, n_points, interval)
-  if(mode == "s" && n_points %% 2 !=0){
+  if(method == "s" && n_points %% 2 !=0){
     warning("The number of points needs to be even for the Simpson method,
               the result was calculated using", n_points - 1, " points instead
             of", n_points," points")
@@ -45,35 +48,35 @@ aprox<- function(func, n_points, interval, mode = "s"){
   delta_x <- (interval[2] - interval[1])/n_points
   y_sum <- 0
 
-  if(mode == "m"){
+  if(method == "m"){
     for (i in 1:(n_points-1)){
       y_sum <- y_sum + func((x[i] + x[i+1])/2)
     }
     return(delta_x * y_sum)
   }
 
-  if(mode == "r"){
+  if(method == "r"){
     for (i in 2:n_points){
       y_sum <- y_sum + func(x[i])
     }
     return(delta_x * y_sum)
   }
 
-  if(mode == "l"){
+  if(method == "l"){
     for (i in 1:(n_points-1)){
       y_sum <- y_sum + func(x[i])
     }
     return(delta_x * y_sum)
   }
 
-  if(mode == "t"){
+  if(method == "t"){
     for (i in 1:(n_points-1)){
       y_sum <- y_sum + (func(x[i]) + func(x[i+1]))/2
     }
     return(delta_x * y_sum)
   }
 
-  if(mode == "s"){
+  if(method == "s"){
     for (i in 1:n_points){
       if(i == 1 || i == n_points){
         y_sum <- y_sum + func(x[i])/3
@@ -89,6 +92,9 @@ aprox<- function(func, n_points, interval, mode = "s"){
   }
   return()
 }
+
+#_______________________________________________________________________________
+
 
 check <- function(func, n_points, interval){
   if(!inherits(func, "function")){

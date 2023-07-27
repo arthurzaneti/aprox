@@ -4,7 +4,7 @@
 \alias{aprox}
 \title{Numerical approximation of defined integrals.}
 \usage{
-aprox(func, n_points, interval, mode = "s")
+aprox(func, n_points, interval, method = "s")
 }
 \arguments{
 \item{func}{The function that is gonna be integrated. The function needs to
@@ -16,12 +16,7 @@ will be heavier computationally}
 
 \item{interval}{A length 2 numeric vector that is the interval to integrate}
 
-\item{mode}{The mode used for approximation, the available modes are:
-- "m" : Midpoint method
-- "l" : Left endpoint method
-- "r" : Right endpoint method
-- "t" : Trapezoidal method
-- "s" : Simpsons method}
+\item{method}{The method used for approximation, the available methods are described in the details section}
 }
 \value{
 A Numeric. The area bellow the function func in the interval provided.
@@ -32,15 +27,17 @@ different methods. The methods available are explained in the details section.
 }
 \details{
 The integration methods available are:
-  - "m": Midpoint method
-  - "r": Right endpoint method
-  - "l": Left endpoint method
-  - "t": Trapezoidal method
-  - "s": Simpson's rule
+   \itemize{
+           \item "m" : Midpoint method
+           \item "l" : Left endpoint method
+           \item "r" : Right endpoint method
+           \item "t" : Trapezoidal method
+           \item "s" : Simpsons method
+           }
 }
 \examples{
 aprox(function(x) x^2, n_points = 100, interval = c(0,1))
-aprox(function(x) sqrt(x^x + 2), n_points = 100, interval = c(sqrt(2), pi), mode = "m")
-aprox(function(x) exp(x^2), n_points = 1000, interval = c(2,4), mode = "t" )
+aprox(function(x) sqrt(x^x + 2), n_points = 100, interval = c(sqrt(2), pi), method = "m")
+aprox(function(x) exp(x^2), n_points = 1000, interval = c(2,4), method = "t" )
 aprox(function(x) exp(x^2), n_points = 1000, interval = c(4,2))
 }
