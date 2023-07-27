@@ -91,9 +91,9 @@ aprox<- function(func, n_points, interval, mode = "s"){
 }
 
 check <- function(func, n_points, interval){
-  if(inherits(func, "function")){
+  if(!inherits(func, "function")){
     print("The value as the first argument is not a function")
-  }else if(inherits(n_points, "numeric")){
+  }else if(!inherits(n_points, "numeric")){
     print("The value sent for the number of points is not a number")
   }else if(length(n_points) != 1){
     print("The value sent for the nubmer of points is a vector, it should be an
@@ -101,7 +101,7 @@ check <- function(func, n_points, interval){
   }else if(n_points <= 0){
     print("The value sent for the number of points needs to be a positive
           integer")
-  }else if(inherits(interval,"numeric")){
+  }else if(!inherits(interval,"numeric")){
     print("The value sent for the interval is not a pair of numbers")
   }else{
     return (T)
